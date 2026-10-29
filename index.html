@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080b16">
+  <title>PROJECT NEURO — Connectome Fly</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="loading" class="loading">
+    <div class="loader"></div>
+    <strong>INITIALIZING PROJECT NEURO</strong>
+    <span id="loadText">Connecting to the original FlyBrain dataset…</span>
+    <div class="load-track"><i id="loadBar"></i></div>
+    <small>The connectome is about 12 MB compressed. First load may take a moment.</small>
+  </div>
+
+  <main class="app">
+    <header class="topbar">
+      <div class="brandmark">N<span>•</span></div>
+      <div class="brand"><strong>PROJECT NEURO</strong><small>CONNECTOME-DRIVEN ARTIFICIAL LIFE</small></div>
+      <div class="brain-status"><i id="statusDot"></i><span id="brainStatus">CONNECTING TO BRAIN</span></div>
+      <button id="pauseBtn" class="top-button">Ⅱ <span>Pause</span></button>
+      <button id="resetBtn" class="top-button">↻ <span>Reset</span></button>
+    </header>
+
+    <section class="layout">
+      <aside class="panel left-panel">
+        <div class="panel-heading"><span class="eyebrow">SUBJECT 001</span><span class="live-pill">LIVE</span></div>
+        <h1>Virtual fruit fly<span class="accent">.</span></h1>
+        <p class="muted">A 3D artificial fly receiving sensory stimulation through the original FlyBrain connectome simulation.</p>
+        <div class="stat-grid">
+          <div class="stat"><span>ENERGY</span><strong id="energyVal">82%</strong><div class="meter"><i id="energyBar"></i></div></div>
+          <div class="stat"><span>SIM TIME</span><strong id="ageVal">00:00</strong><small>ELAPSED</small></div>
+          <div class="stat"><span>FOOD EATEN</span><strong id="foodVal">0</strong><small>COLLECTED</small></div>
+          <div class="stat"><span>NEURONS FIRING</span><strong id="firingVal">—</strong><small>LAST TICK</small></div>
+        </div>
+
+        <div class="section-title">SENSORY INPUTS <span class="pill">LIVE</span></div>
+        <div class="sense-row"><span class="sense-icon sun">☼</span><div class="sense-copy"><strong>Photoreceptors</strong><small>Visual neuron groups</small></div><span id="lightRead" class="readout">—</span></div>
+        <div class="sense-row"><span class="sense-icon food">✳</span><div class="sense-copy"><strong>Food odor</strong><small>OLF_ORN_FOOD</small></div><span id="foodRead" class="readout">—</span></div>
+        <div class="sense-row"><span class="sense-icon danger">⌁</span><div class="sense-copy"><strong>Danger odor</strong><small>OLF_ORN_DANGER</small></div><span id="dangerRead" class="readout">—</span></div>
+        <div class="sense-row"><span class="sense-icon touch">⌖</span><div class="sense-copy"><strong>Touch / air</strong><small>Mechanosensory groups</small></div><span id="touchRead" class="readout">READY</span></div>
+
+        <div class="section-title">HABITAT CONTROLS</div>
+        <label class="control-label" for="lightSlider">Light intensity <span id="lightLabel">82%</span></label>
+        <input id="lightSlider" type="range" min="0" max="100" value="82">
+        <label class="control-label" for="threatSlider">Danger odor <span id="threatLabel">42%</span></label>
+        <input id="threatSlider" type="range" min="0" max="100" value="42">
+        <div class="button-row"><button id="foodBtn" class="secondary-button">＋ Add food</button><button id="threatBtn" class="secondary-button threat-button">＋ Add threat</button></div>
+        <button id="touchBtn" class="wide-button">Touch the fly · trigger sensory response</button>
+        <p class="tiny-note">Drag the 3D scene to orbit. Scroll to zoom. Click the fly to stimulate touch neurons.</p>
+      </aside>
+
+      <section class="viewport-wrap">
+        <div class="viewport-top"><div><span class="eyebrow">3D HABITAT</span><strong>Terrarium / A-01</strong></div><div class="view-controls"><span class="key-hint">DRAG TO ORBIT</span><button id="cameraBtn" title="Reset camera">◎</button></div></div>
+        <div id="scene" class="scene"></div>
+        <div class="scene-label label-light"><i></i> LIGHT SOURCE</div>
+        <div class="scene-label label-food"><i></i> FOOD ODOR</div>
+        <div class="scene-label label-danger"><i></i> DANGER</div>
+        <div class="scene-bottom"><span><i class="legend-dot fly-dot"></i> FLY</span><span><i class="legend-dot food-dot"></i> FOOD</span><span><i class="legend-dot danger-dot"></i> THREAT</span><span id="coordText">X 0.0 · Y 2.0 · Z 0.0</span></div>
+        <div class="mini-status"><span class="pulse"></span><span id="behaviorText">WAITING FOR CONNECTOME</span></div>
+      </section>
+
+      <aside class="panel right-panel">
+        <div class="section-title first">ORIGINAL CONNECTOME <span class="pill cyan">FLYWIRE</span></div>
+        <div class="connectome-numbers">
+          <div><strong id="neuronCount">139,255</strong><span>NEURONS IN DATASET</span></div>
+          <div><strong id="edgeCount">2.7M</strong><span>SYNAPTIC CONNECTIONS</span></div>
+        </div>
+        <div class="brain-card">
+          <div class="brain-visual"><canvas id="neuralCanvas"></canvas><div class="brain-core"></div></div>
+          <div class="brain-caption"><span>CONNECTOME ACTIVITY</span><span id="neuralPercent">STARTING</span></div>
+          <div class="meter neural-meter"><i id="neuralBar"></i></div>
+        </div>
+        <div class="section-title">NEURAL GROUP SIGNALS</div>
+        <div class="signal-list">
+          <div class="signal"><span>Vision</span><div class="signal-track"><i id="visionSignal"></i></div><b id="visionVal">0</b></div>
+          <div class="signal"><span>Food odor</span><div class="signal-track"><i id="olfFoodSignal"></i></div><b id="olfFoodVal">0</b></div>
+          <div class="signal"><span>Danger odor</span><div class="signal-track"><i id="olfDangerSignal"></i></div><b id="olfDangerVal">0</b></div>
+          <div class="signal"><span>Central / heading</span><div class="signal-track"><i id="centralSignal"></i></div><b id="centralVal">0</b></div>
+          <div class="signal"><span>Descending output</span><div class="signal-track"><i id="motorSignal"></i></div><b id="motorVal">0</b></div>
+        </div>
+        <div class="section-title">EVENT LOG <button id="clearLog" class="text-button">CLEAR</button></div>
+        <div id="log" class="log"><div class="log-entry"><time>00:00</time><span>3D habitat created. Waiting for original connectome.</span></div></div>
+        <div class="footer-note"><span class="status-dot"></span><span id="sourceStatus">CONNECTOME NOT LOADED</span></div>
+      </aside>
+    </section>
+    <footer class="foot"><span>PROJECT NEURO</span><span>ORIGINAL FLYBRAIN / FLYWIRE FAFB V783 DATA</span><span>THREE.JS</span></footer>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
